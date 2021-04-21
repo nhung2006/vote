@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import {
   Redirect,
-  useHistory
 } from "react-router-dom";
 import { Table, Input, Button, Popconfirm, Form } from 'antd';
 import axios from 'axios';
@@ -88,14 +87,15 @@ const EditableCell = ({
 };
 
 export default class CreateOption extends React.Component {
-
+  
   constructor(props) {
+    
     super(props);
     this.columns = [
       {
         title: 'Option',
         dataIndex: 'content',
-        width: '30%',
+        width: '90%',
         editable: true,
       },
       {
@@ -147,14 +147,17 @@ export default class CreateOption extends React.Component {
   };
 
   handleSaveOption = async event => {
+    const a = this.props.location.state
+    // console.log(this.props.location.state);
     const state = {
       redirect: false
     }
     event.preventDefault();
     const dataSource = [...this.state.dataSource];
-    console.log(dataSource.length);
+    
     for (let i = 0; i < dataSource.length; i++) {
       const user = {
+        topicId: a,
         content: dataSource[i].content
       };
       try {
@@ -170,6 +173,8 @@ export default class CreateOption extends React.Component {
   }
 
   render() {
+    const a = this.props.location.state
+
     const { dataSource } = this.state;
     const { redirect } = this.state;
     const components = {
@@ -196,32 +201,49 @@ export default class CreateOption extends React.Component {
     });
     
     if (redirect) {
-      return <Redirect to='/poll'/>;
+      return <Redirect to={{pathname : '/poll', state: a}} />;
     }else{
       return (
-        <div>
+        
+        <div className='option'>
+          <b>Step 2/3</b>
+          <h3>What are the proposals?</h3>
+          <div className="option-add">
+            <Button
+              onClick={this.handleAdd}
+              type="primary"
+              style={{
+                marginBottom: 16,
+              }}
+            >
+              Add a row
+            </Button>
+          </div>
+          <div className='option-table'>
+            <Table
+              components={components}
+              rowClassName={() => 'editable-row'}
+              bordered
+              dataSource={dataSource}
+              columns={columns}
+            />
+          </div>
           <Button
-            onClick={this.handleAdd}
+            className="option-btn"
+            onClick={this.handleBack}
             type="primary"
-            style={{
-              marginBottom: 16,
-            }}
+            href="http://localhost:2020/create-topic"
           >
-            Add a row
-          </Button>
-          <Table
-            components={components}
-            rowClassName={() => 'editable-row'}
-            bordered
-            dataSource={dataSource}
-            columns={columns}
-          />
+            Back
+          </Button> 
           <Button
             onClick={this.handleSaveOption}
             type="primary"
+            className="option-btn"
           >
             Poll
           </Button>
+          
           
         </div>
       );

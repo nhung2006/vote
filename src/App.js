@@ -1,14 +1,12 @@
 
 import { Button } from 'antd';
 import {
-  BrowserRouter as Router,
   Route,
   useHistory
 } from "react-router-dom";
 import CreateTopic from './topic/create';
-import {GetTopic} from './topic/topic';
-import EditableContext from './option/create'
 import CreateOption from './option/create';
+import CreatePoll from './poll/create';
 
 
 function App() {
@@ -20,14 +18,17 @@ function App() {
 
 
   return (
-    <div>
-
-      <Route exact path="/poll" component={CreateTopic}/>
-      <Route exact path="/create-option" component={CreateOption}/>
-      <Route exact path="/create-topic" component={CreateTopic}/>
-      <Route exact path='/'>
-        <Button className='create-topic' type="primary" onClick ={()=>handleClick()}>create topic</Button>
-      </Route>
+    <div className='home-page'>
+      <h3>Welcome to Poll</h3>
+      <div className='btn-home-page'>
+        <Route exact path="/poll" component={CreatePoll}/>
+        <Route exact path="/create-option" component={CreateOption}/>
+        <Route exact path="/create-topic" component={CreateTopic}/>
+        <Route exact path='/' >
+          <Button className='create-topic' type="primary" onClick ={()=>handleClick()}>Create topic</Button>
+          <Button type="primary">Get Vote</Button>
+        </Route>
+      </div>
     </div>
   );
 

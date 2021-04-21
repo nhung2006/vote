@@ -1,5 +1,23 @@
 .App-header{
-
     display: flex;
     justify-content: center;
+}
+
+.home-page{
+    padding-top: 2%;
+    text-align: center  ;
+    height: 300px;
+    width: 50%;
+    margin-top: 5%;
+    margin-left: 20%;
+    box-shadow: 5px 5px 5px 5px #8888884f;
+    border-radius: 1%;
+}
+.btn-home-page{
+    margin-top: 5%;
+    text-align: center;
+    
+}
+.btn-home-page .create-topic{
+   margin-right: 5%;
 }
