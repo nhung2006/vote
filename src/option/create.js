@@ -134,6 +134,7 @@ export default class CreateOption extends React.Component {
       dataSource: [...dataSource, newData],
       count: count + 1,
     });
+    console.log(dataSource);
   };
 
   handleSave = (row) => {
@@ -147,8 +148,7 @@ export default class CreateOption extends React.Component {
   };
 
   handleSaveOption = async event => {
-    const a = this.props.location.state
-    // console.log(this.props.location.state);
+    const topicId = this.props.location.state
     const state = {
       redirect: false
     }
@@ -156,12 +156,12 @@ export default class CreateOption extends React.Component {
     const dataSource = [...this.state.dataSource];
     
     for (let i = 0; i < dataSource.length; i++) {
-      const user = {
-        topicId: a,
+      const option = {
+        topicId: topicId,
         content: dataSource[i].content
       };
       try {
-        const response = await axios.post("http://localhost:3020/option", user);
+        const response = await axios.post("http://localhost:3020/option", option);
         if(response){
           this.setState({redirect: true})
         }
@@ -173,7 +173,7 @@ export default class CreateOption extends React.Component {
   }
 
   render() {
-    const a = this.props.location.state
+    const topicId = this.props.location.state
 
     const { dataSource } = this.state;
     const { redirect } = this.state;
@@ -201,7 +201,7 @@ export default class CreateOption extends React.Component {
     });
     
     if (redirect) {
-      return <Redirect to={{pathname : '/poll', state: a}} />;
+      return <Redirect to={{pathname : '/create-name', state: topicId}} />;
     }else{
       return (
         
