@@ -89,51 +89,69 @@ const CreatePoll = (props) => {
     let [columns, setColumns] = useState([])
 
     const topicId = props.location.state
-    useEffect(async () => {
-        const result = await axios.get(
-            'http://localhost:3020/poll/' + topicId,
-        );
-        const sum = result.data.poll.length;
-        if(sum !== 0){
-          setDataSource(result.data.poll);
-        }
-        else{
-          setDataSource([{key: '1', userame: 'admin'}]);
-        }
-    }, []);
      
     useEffect(async () => {
-      const result = await axios.get(
+      const polldata = await axios.get('http://localhost:3020/poll/' + topicId);
+      const countUser = polldata.data.poll.length;
+      const poll = polldata.data.poll
+      const resultTitle = await axios.get(
         // 'http://localhost:3020/option/'+ topicId
         'http://localhost:3020/poll/'+ topicId
       );
-        const option =result.data.option
-        console.log(option);
-        const dataMap = option?.map((item) =>{
+      
+      const option =resultTitle.data.option
+      console.log('option', option);
+      if(countUser !== 0){  
+        const dataSourceMap = poll?.map((item)=>{
+          console.log('item', item);
+          return { 
+            key: item.id,
+            username: item.username,
+            sdfsf: <Checkbox/>,
+            sdff: <Checkbox/>,
+            
+          }
+          
+        })
+        // const dataSourceColumns = [{ 
+        //     key: countUser+1,
+        //     username: username.username,
+        //     sdfsf: <Checkbox/>,
+        //     sdff: <Checkbox/>,
+            
+        //   }]
+        console.log('poll', dataSourceMap);
+        setDataSource(dataSourceMap);
+      }
+      else{
+        setDataSource([{key: '1', userame: 'admin'}]);
+      }
+
+      const dataMap = option?.map((item) =>{
           return {
             title: item.content,
             dataIndex: item.content,
             width: '30%', 
-            id: item.id,
-            render: checkbox => {
-              const  onChange = (async(e) =>{
-                const check = e.target.checked;
-                const username = result.data.poll[0].username
-                const poll = {
-                  username: username,
-                  optionId: item.id
-                }
-                if(check){
-                  const updatepoll = await axios.patch("http://localhost:3020/poll/"+ username, poll);
-                  console.log(updatepoll.data);
-                  
-                }else{
-                  console.log('nooo');
-                }
-              })
+            // id: item.id,
+            // render: checkbox => {
+            //   const select = ( async(value)=>{
+            //     console.log(value.target);
 
-              return <Checkbox onChange={onChange} />
-            },
+
+            //   }) 
+            //   const  onChange = (async(e) =>{
+            //     const check = e.target.checked;
+            //     // const username = result.data.poll[0].username
+            //     // console.log(username);
+            //     // const poll = {
+            //     //   username: username,
+            //     //   optionId: item.id
+            //     // }
+            //     // const getcheck = await axios.get("http://localhost:3020/poll/"+ username);
+            //     // console.log(getcheck.data);
+            //   })
+            //   return <Checkbox onChange={onChange} value={option}  onClick={select}/>
+            // },
           }
         })
         dataMap.unshift({ 
@@ -190,25 +208,31 @@ const CreatePoll = (props) => {
     const handSubmit = async () =>{
       const topicId = props.location.state
       const data = dataSource
-      console.log(data);
+      const dataOption = columns
+      console.log(data.length);
+      //  const x = data.map((item)=>{
+      // const propOwn = Object.getOwnPropertyNames(item);
+      // console.log('item',item, propOwn.length);
+      //   // return item
+      // });
       // console.log(data.length);
 
-      // for (let i = 0; i < data.length; i++) {
-      //   console.log('okkk');
-      //   const poll = {
-      //     optionId: data[i].option.id,
-      //     userame: data[i].username,
-      //   };
-      //   console.log(poll);
-      //   // try {
-      //   //   const response = await axios.post("http://localhost:3020/poll", poll);
-      //   //   if(response){
-      //   //     this.setState({redirect: true})
-      //   //   }
-      //   // } catch (err) {
-      //   //   console.log(err);
-      //   // }
-      // }
+      for (let i = 1; i < dataOption.length; i++) {
+        console.log('okkk');
+        const poll = {
+          optionId: dataOption[i],
+          userame: data,
+        };
+        console.log(poll);
+        // try {
+        //   const response = await axios.post("http://localhost:3020/poll", poll);
+        //   if(response){
+        //     this.setState({redirect: true})
+        //   }
+        // } catch (err) {
+        //   console.log(err);
+        // }
+      }
   
     }
     return (
