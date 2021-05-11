@@ -126,15 +126,16 @@ export default class CreateOption extends React.Component {
 
   handleAdd = () => {
     const { count, dataSource } = this.state;
-    const newData = {
-      key: count,
-      content: `add option ${count}`,
-    };
-    this.setState({
-      dataSource: [...dataSource, newData],
-      count: count + 1,
-    });
-    console.log(dataSource);
+    if(count<10){
+      const newData = {
+        key: count,
+        content: `add option ${count}`,
+      };
+      this.setState({
+        dataSource: [...dataSource, newData],
+        count: count + 1,
+      });
+    }
   };
 
   handleSave = (row) => {
@@ -154,7 +155,6 @@ export default class CreateOption extends React.Component {
     }
     event.preventDefault();
     const dataSource = [...this.state.dataSource];
-    
     for (let i = 0; i < dataSource.length; i++) {
       const option = {
         topicId: topicId,

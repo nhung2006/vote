@@ -7,8 +7,7 @@ import {
 import CreateTopic from './topic/create';
 import CreateOption from './option/create';
 import CreateUsername from './poll/createname';
-import CreatePoll from './poll/create';
-
+import CreatePoll from './poll/create'
 
 function App() {
   const history = useHistory();

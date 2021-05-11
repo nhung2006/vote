@@ -1,3 +1,127 @@
+// // import { Table } from 'antd';
+// // import { useState } from 'react';
+
+
+// // const CreatePoll = () => {
+// //   const [selectedRowKeys, setSelectedRowKeys] = useState([])
+// //   const [columns, setColumns] = useState([])
+
+// //   setColumns([
+// //     {
+// //       title: 'Name',
+// //       dataIndex: 'name',
+// //     },
+// //     {
+// //       title: 'Age',
+// //       dataIndex: 'age',
+// //     },
+// //     {
+// //       title: 'Address',
+// //       dataIndex: 'address',
+// //     },
+// //   ])
+
+// //   const onSelectChange = (selectedRowKeys) => {
+// //     console.log('selectedRowKeys changed: ', selectedRowKeys);
+// //     setSelectedRowKeys(selectedRowKeys);
+// //   };
+
+
+// //   const [data, setData] = useState([])
+// //   setData([
+// //     {key: 1,
+// //     name: `Edward King 1`,
+// //     age: 32,
+// //     address: `London, Park Lane no. 1`,}
+// //   ])
+
+// //   const rowSelection = {
+// //     selectedRowKeys,
+// //     onChange: onSelectChange,
+// //     selections: [
+// //       Table.SELECTION_ALL,
+// //       Table.SELECTION_INVERT,
+// //     ],
+// //   };
+
+// //   return( <Table rowSelection={rowSelection} columns={columns} dataSource={data} />)
+// // }
+// // export default CreatePoll 
+
+// import { Table } from 'antd';
+// import React, { useEffect, useState } from 'react'
+// import axios from 'axios'
+// import { Checkbox } from 'antd';
+
+// const CreatePoll = (props) =>{
+//   const topicId = props.location.state
+//   let [dataSource, setDataSource] = useState([])
+//   let [columns, setColumns] = useState([])
+//   useEffect(async () => {
+//     const polldata = await axios.get('http://localhost:3020/poll/' + topicId);
+//     const countUser = polldata.data.poll.length;
+//     const poll = polldata.data.poll
+//     const resultTitle = await axios.get(
+//       // 'http://localhost:3020/option/'+ topicId
+//       'http://localhost:3020/poll/'+ topicId
+//     );
+    
+//     const option =resultTitle.data.option
+//     if(countUser !== 0){  
+//       const dataSourceMap = poll?.map((item)=>{
+//         return { 
+//           key: item.id,
+//           username: item.username,
+//           sdfsf: <Checkbox/>,
+//           sdff: <Checkbox/>,
+          
+//         }
+        
+//       })
+//       setDataSource(dataSourceMap);
+//     }
+//     else{
+//       setDataSource([{key: '1', userame: 'admin'}]);
+//     }
+  
+//     const dataMap = option?.map((item) =>{
+//         return {
+//           title: item.content,
+//           dataIndex: item.content,
+//           width: '30%', 
+//         }
+//       })
+//       dataMap.unshift({ 
+//         title: 'username',
+//         dataIndex: 'username',
+//         width: '30%',
+//         editable: true,
+//       },)
+//       setColumns(dataMap);
+//   }, []);
+
+
+//   const onSelectChange = (selectedRowKeys) => {
+
+//     console.log('selectedRowKeys changed: ', selectedRowKeys);
+//     setSelectedRowKeys(selectedRowKeys);
+//   };
+
+//   // const { selectedRowKeys } = columns;
+//   const [selectedRowKeys, setSelectedRowKeys] = useState([])
+//   const rowSelection = {
+//     columnTitle: 'asd',
+//     selectedRowKeys,
+//     onChange: onSelectChange,
+//   };
+//   return (
+//     <Table columns={columns} dataSource={dataSource}  rowSelection={rowSelection} />
+//   )
+// }
+// export default  CreatePoll 
+
+
+
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import { Table, Input, Button, Form, Checkbox, Row, Col } from 'antd';
 import axios from 'axios'
@@ -102,100 +226,12 @@ const CreatePoll = (props) => {
       const option =resultTitle.data.option
       if(countUser !== 0){  
         const dataSourceMap = poll?.map((item, index)=>{
-          const onchange= (async (e) =>{
+        console.log('INDEX', index);
 
-            const optionId = e[0]
-            const username = item.username;
-            const pollDto = {
-              // topicId: topicId,
-              optionId: optionId,
-              username: username
-            }
-            if(pollDto){console.log(pollDto);
-              const poll = await axios.patch('http://localhost:3020/poll/' + username, pollDto);
-            }
-          })
           return { 
             id: item.id,
             key: index+1,
             username: item.username,
-            let0:  <Checkbox.Group style={{ width: '100%' }} onChange={onchange}>
-                <Row> 
-                  <Col span={8}>
-                    <Checkbox value={item.id}></Checkbox>
-                  </Col>
-                </Row>
-              </Checkbox.Group>,
-            let1:  <Checkbox.Group style={{ width: '100%' }} onChange={onchange}>
-                <Row> 
-                  <Col span={8}>
-                    <Checkbox value={item.id}></Checkbox>
-                  </Col>
-                </Row>
-              </Checkbox.Group>,
-            let2:  <Checkbox.Group style={{ width: '100%' }} onChange={onchange}>
-                <Row> 
-                  <Col span={8}>
-                    <Checkbox value={item.id}></Checkbox>
-                  </Col>
-                </Row>
-              </Checkbox.Group>,
-            let3:  <Checkbox.Group style={{ width: '100%' }} onChange={onchange}>
-                <Row> 
-                  <Col span={8}>
-                    <Checkbox value={item.id}></Checkbox>
-                  </Col>
-                </Row>
-              </Checkbox.Group>,
-            let4:  <Checkbox.Group style={{ width: '100%' }} onChange={onchange}>
-                <Row> 
-                  <Col span={8}>
-                    <Checkbox value={item.id}></Checkbox>
-                  </Col>
-                </Row>
-              </Checkbox.Group>,
-            let5:  <Checkbox.Group style={{ width: '100%' }} onChange={onchange}>
-                <Row> 
-                  <Col span={8}>
-                    <Checkbox value={item.id}></Checkbox>
-                  </Col>
-                </Row>
-              </Checkbox.Group>,
-            let6:  <Checkbox.Group style={{ width: '100%' }} onChange={onchange}>
-                <Row> 
-                  <Col span={8}>
-                    <Checkbox value={item.id}></Checkbox>
-                  </Col>
-                </Row>
-              </Checkbox.Group>,
-            let7:  <Checkbox.Group style={{ width: '100%' }} onChange={onchange}>
-                <Row> 
-                  <Col span={8}>
-                    <Checkbox value={item.id}></Checkbox>
-                  </Col>
-                </Row>
-              </Checkbox.Group>,
-            let8:  <Checkbox.Group style={{ width: '100%' }} onChange={onchange}>
-                <Row> 
-                  <Col span={8}>
-                    <Checkbox value={item.id}></Checkbox>
-                  </Col>
-                </Row>
-              </Checkbox.Group>,
-            let9:  <Checkbox.Group style={{ width: '100%' }} onChange={onchange}>
-                <Row> 
-                  <Col span={8}>
-                    <Checkbox value={item.id}></Checkbox>
-                  </Col>
-                </Row>
-              </Checkbox.Group>,
-            let10:  <Checkbox.Group style={{ width: '100%' }} onChange={onchange}>
-                <Row> 
-                  <Col span={8}>
-                    <Checkbox value={item.id}></Checkbox>
-                  </Col>
-                </Row>
-              </Checkbox.Group>
           }
         })
         setDataSource(dataSourceMap);
@@ -205,30 +241,26 @@ const CreatePoll = (props) => {
       }
 
       const dataMap = option?.map((item, index) =>{
+        console.log('index option ', index);
 
-        // const dataSourceMap = poll?.map((item1, index1)=>{
-        //   return { 
-        //     id: item1.id,
-        //     key: index1+1,
-        //     username: item1.username,
-        //     let24 : 'sdfsd',
-        //     let25 : 'sdfsd',
-        //     let26 : 'sdfsd',
-        //     let27 : 'sdfsd',
-        //     let28 : 'sdfsd',
-        //     let29 : 'sdfsd',
-        //     let30 : 'sdfsd',
-        //     let31 : 'sdfsd',
-        //   }
-        // })
-        
-        // setDataSource(dataSourceMap);
           return {
             title: item.content,
-            dataIndex: 'let'+index,
+            dataIndex: item.content,
             width: '30%', 
             id: item.id,
             key: index+1,
+            render: checkbox => {
+              const  onChange = (async(e) =>{
+                console.log(e);
+              })
+              return  <Checkbox.Group style={{ width: '100%' }} onChange={onChange}>
+                <Row> 
+                  <Col span={8}>
+                    <Checkbox value={item.id}></Checkbox>
+                  </Col>
+                </Row>
+              </Checkbox.Group>
+            },
           }
         })
         dataMap.unshift({ 
@@ -237,7 +269,6 @@ const CreatePoll = (props) => {
           width: '30%',
           editable: true,
         },)
-        console.log('dataMap', dataMap);
         setColumns(dataMap);
         
     }, []);
