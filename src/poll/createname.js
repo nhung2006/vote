@@ -19,17 +19,22 @@ const CreateUsername = (props)=>{
         event.preventDefault();
         const topicId = props.location.state
         const user = {
-            username: username,
-            topicId: topicId
+            topicId: topicId, 
+            username: username
         };
         if(user.username){
             try {
                 const response = await axios.post("http://localhost:3020/poll/username", user);
-                if(response){
+                const statusCode = (response.data.status);
+                console.log(statusCode);
+                if(statusCode === 201){
                   history.push({pathname: "/poll", state: topicId});
                 }
-                else{
-                    history.push("/create-topic")
+                if(statusCode === 400){
+                  console.log(response.data.response);
+                  // console.log(response);
+
+                    // history.push("/create-topic")
                 }
             } catch (err) {
             console.log(err);
